@@ -1,0 +1,77 @@
+# Monte Pterodactyl Theme
+
+**Powered by Monte**
+
+A polished Monte-branded visual layer for Pterodactyl panels, built on top of the Nebula Blueprint extension. It adds a clear samurai background, glass-style panels, translucent dashboard surfaces, a wide labelled sidebar, custom red 3D SVG icons, and Monte branding.
+
+> **License note:** This repository is private by default. The package contains a Nebula Blueprint bundle supplied for this deployment. Do not publish or redistribute Nebula materials unless you have the required permission and license rights.
+
+## Preview
+
+### Monte panel
+
+![Monte panel preview](docs/monte-panel.webp)
+
+### Design reference
+
+![Design reference](docs/reference.jpg)
+
+## Requirements
+
+- Ubuntu/Debian server with a working Pterodactyl panel.
+- Root access to the server.
+- Blueprint installed and available as the `blueprint` command.
+- A supported Nebula Blueprint extension release.
+- MySQL/MariaDB credentials available in `/var/www/pterodactyl/.env`.
+
+The installer updates the bundled Nebula extension when Blueprint is already installed. It does not silently overwrite an unknown panel directory: use `PANEL_DIR=/your/panel/path` when the panel is not in the default location.
+
+## Installation
+
+Clone the private repository on the panel server and run the installer as root:
+
+```bash
+git clone https://github.com/mzml-gg/monte-pterodactyl-theme.git
+cd monte-pterodactyl-theme
+sudo PANEL_DIR=/var/www/pterodactyl ./install.sh
+```
+
+The installer will:
+
+1. Back up the current Nebula files and the `settings` table under `/root/monte-theme-backup-TIMESTAMP/`.
+2. Install or update the bundled Nebula Blueprint extension with `blueprint -i nebula.blueprint`.
+3. Install the Monte logo, samurai wallpaper, and custom 3D SVG icons.
+4. Apply the glass sidebar, labelled navigation, translucent dashboard, background, and Monte branding settings.
+5. Clear Laravel view/cache files and repair runtime ownership.
+
+## Uninstall / rollback
+
+The installer prints the backup directory. To restore the database settings:
+
+```bash
+mysql -u YOUR_DB_USER -p YOUR_DB_NAME < /root/monte-theme-backup-TIMESTAMP/settings.sql
+```
+
+Restore the previous files from `nebula-files.tgz` only after reviewing its contents:
+
+```bash
+tar -tzf /root/monte-theme-backup-TIMESTAMP/nebula-files.tgz
+```
+
+## Validation
+
+After installation, verify the panel and static assets:
+
+```bash
+curl -I https://YOUR-PANEL-DOMAIN/
+curl -I https://YOUR-PANEL-DOMAIN/nebula-assets/monte-logo.jpg
+curl -I https://YOUR-PANEL-DOMAIN/nebula-assets/icons3d/home.svg
+```
+
+Then hard-refresh the browser with `Ctrl+F5`. The footer should read **Powered by Monte** and link to [profile.monte-dev.online](https://profile.monte-dev.online).
+
+## Repository
+
+GitHub: [mzml-gg/monte-pterodactyl-theme](https://github.com/mzml-gg/monte-pterodactyl-theme)
+
+**Powered by Monte.**
