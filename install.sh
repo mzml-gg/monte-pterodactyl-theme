@@ -40,7 +40,7 @@ cd "$PANEL_DIR"
 BUNDLE_NAME=".monte-nebula-${STAMP}.blueprint"
 cp -f "$SCRIPT_DIR/nebula.blueprint" "$PANEL_DIR/$BUNDLE_NAME"
 trap 'rm -f "$PANEL_DIR/$BUNDLE_NAME"' EXIT
-TERM=xterm blueprint -i "$BUNDLE_NAME"
+printf '\n\n' | TERM=xterm blueprint -i "$BUNDLE_NAME"
 rm -f "$PANEL_DIR/$BUNDLE_NAME"
 trap - EXIT
 

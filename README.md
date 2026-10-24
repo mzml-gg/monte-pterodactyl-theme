@@ -60,6 +60,27 @@ tar -tzf /root/monte-theme-backup-TIMESTAMP/nebula-files.tgz
 
 ## Validation
 
+After installation, verify the panel, services, and static assets:
+
+```bash
+for service in docker wings nginx php8.3-fpm redis-server mysql; do
+  printf "%-12s " "$service"
+  systemctl is-active --quiet "$service" && echo "200 ✅" || echo "DOWN ❌"
+done
+
+for url in \
+  https://YOUR-PANEL-DOMAIN/ \
+  https://YOUR-PANEL-DOMAIN/nebula-assets/monte-logo.jpg \
+  https://YOUR-PANEL-DOMAIN/nebula-assets/samurai.jpg \
+  https://YOUR-PANEL-DOMAIN/nebula-assets/icons3d/home.svg; do
+  curl -fsSI "$url" | head -n 1
+done
+```
+
+The installer invokes Blueprint with the bundle copied into the panel directory and answers Nebula's informational prompts automatically. A temporary `.monte-nebula-*.blueprint` file is removed when installation finishes.
+
+This release was tested on an Ubuntu 24.04 Pterodactyl panel with Blueprint `beta-2026-08`, Docker 29.8.2, and Wings 1.13.3. The panel returned HTTP 200, all six services were active, and the Monte logo, background, and SVG icon assets returned HTTP 200.
+
 After installation, verify the panel and static assets:
 
 ```bash
