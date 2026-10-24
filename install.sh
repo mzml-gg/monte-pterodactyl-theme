@@ -37,7 +37,12 @@ tar -czf "$BACKUP_DIR/nebula-files.tgz" -C "$PANEL_DIR" \
 
 log "Installing or updating the bundled Nebula Blueprint extension"
 cd "$PANEL_DIR"
-TERM=xterm blueprint -i "$SCRIPT_DIR/nebula.blueprint"
+BUNDLE_NAME=".monte-nebula-${STAMP}.blueprint"
+cp -f "$SCRIPT_DIR/nebula.blueprint" "$PANEL_DIR/$BUNDLE_NAME"
+trap 'rm -f "$PANEL_DIR/$BUNDLE_NAME"' EXIT
+TERM=xterm blueprint -i "./$BUNDLE_NAME"
+rm -f "$PANEL_DIR/$BUNDLE_NAME"
+trap - EXIT
 
 log "Installing Monte assets and Blade overrides"
 mkdir -p "$PANEL_DIR/public/nebula-assets/icons3d" \
