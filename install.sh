@@ -17,6 +17,8 @@ fail(){ printf '\033[1;31m[MONTE][ERROR]\033[0m %s\n' "$*" >&2; exit 1; }
 command -v mysql >/dev/null || fail "mysql client is required."
 command -v mysqldump >/dev/null || fail "mysqldump is required."
 command -v blueprint >/dev/null || fail "Blueprint is not installed. Install Blueprint from https://blueprint.zip, then run this installer again."
+command -v unzip >/dev/null || fail "unzip is required."
+command -v zip >/dev/null || fail "zip is required."
 [[ -f "$SCRIPT_DIR/nebula.blueprint" ]] || fail "nebula.blueprint is missing from this release."
 
 set -a
@@ -38,9 +40,16 @@ tar -czf "$BACKUP_DIR/nebula-files.tgz" -C "$PANEL_DIR" \
 log "Installing or updating the bundled Nebula Blueprint extension"
 cd "$PANEL_DIR"
 BUNDLE_NAME=".monte-nebula-${STAMP}.blueprint"
-cp -f "$SCRIPT_DIR/nebula.blueprint" "$PANEL_DIR/$BUNDLE_NAME"
+BUNDLE_WORK="$(mktemp -d)"
+unzip -q "$SCRIPT_DIR/nebula.blueprint" -d "$BUNDLE_WORK"
+# Nebula's bundled notice uses read prompts; neutralize only those prompts for unattended installs.
+if [[ -f "$BUNDLE_WORK/private/install.sh" ]]; then
+  sed -i 's/read r/r=""/g' "$BUNDLE_WORK/private/install.sh"
+fi
+( cd "$BUNDLE_WORK" && zip -qr "$PANEL_DIR/$BUNDLE_NAME" . )
+rm -rf "$BUNDLE_WORK"
 trap 'rm -f "$PANEL_DIR/$BUNDLE_NAME"' EXIT
-printf '\n\n' | TERM=xterm blueprint -i "$BUNDLE_NAME"
+TERM=xterm blueprint -i "$BUNDLE_NAME"
 rm -f "$PANEL_DIR/$BUNDLE_NAME"
 trap - EXIT
 
