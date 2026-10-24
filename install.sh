@@ -44,7 +44,7 @@ BUNDLE_WORK="$(mktemp -d)"
 unzip -q "$SCRIPT_DIR/nebula.blueprint" -d "$BUNDLE_WORK"
 # Nebula's bundled notice uses read prompts; neutralize only those prompts for unattended installs.
 if [[ -f "$BUNDLE_WORK/private/install.sh" ]]; then
-  sed -i 's/read r/r=""/g' "$BUNDLE_WORK/private/install.sh"
+  sed -i -e '/press enter to continue/s/^/# Monte unattended: /' -e 's/read r/r=""/g' "$BUNDLE_WORK/private/install.sh"
 fi
 ( cd "$BUNDLE_WORK" && zip -qr "$PANEL_DIR/$BUNDLE_NAME" . )
 rm -rf "$BUNDLE_WORK"

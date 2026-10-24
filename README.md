@@ -77,7 +77,7 @@ for url in \
 done
 ```
 
-The installer invokes Blueprint with the bundle copied into the panel directory and answers Nebula's informational prompts automatically. A temporary `.monte-nebula-*.blueprint` file is removed when installation finishes.
+The installer invokes Blueprint with the bundle copied into the panel directory and removes Nebula's informational prompts automatically. A temporary `.monte-nebula-*.blueprint` file is removed when installation finishes.
 
 This release was tested on an Ubuntu 24.04 Pterodactyl panel with Blueprint `beta-2026-08`, Docker 29.8.2, and Wings 1.13.3. The panel returned HTTP 200, all six services were active, and the Monte logo, background, and SVG icon assets returned HTTP 200.
 
