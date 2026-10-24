@@ -81,6 +81,8 @@ The installer invokes Blueprint with the bundle copied into the panel directory 
 
 This release was tested on an Ubuntu 24.04 Pterodactyl panel with Blueprint `beta-2026-08`, Docker 29.8.2, and Wings 1.13.3. The panel returned HTTP 200, all six services were active, and the Monte logo, background, and SVG icon assets returned HTTP 200.
 
+Blueprint may print two non-fatal compatibility notices during the Nebula update: the supplied Nebula bundle targets a newer Blueprint build (`beta-A428-2`) and contains deprecated legacy extension flags. The installation completed successfully on Blueprint `beta-2026-08`; the panel and all Monte assets were verified with HTTP 200.
+
 After installation, verify the panel and static assets:
 
 ```bash
