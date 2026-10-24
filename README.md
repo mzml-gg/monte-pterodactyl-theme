@@ -39,13 +39,21 @@ sudo PANEL_DIR=/var/www/pterodactyl ./install.sh
 
 If the repository is already available on the server, run the installer directly:
 
+For a single paste-and-run command, use `bootstrap.sh`. Because this repository is private, the VPS must already have GitHub access configured, or the command must receive a short-lived `GITHUB_TOKEN` through the environment:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/mzml-gg/monte-pterodactyl-theme/main/bootstrap.sh | sudo bash
+```
+
+The bootstrapper downloads the release into a temporary directory, runs the cleanup/reinstall process, and removes the temporary files. It never deletes unrelated Pterodactyl extensions; it backs up and replaces the Nebula theme layer only.
+
 The installer will:
 
 1. Back up the current Nebula files and the `settings` table under `/root/monte-theme-backup-TIMESTAMP/`.
-2. Install or update the bundled Nebula Blueprint extension with `blueprint -i nebula.blueprint`.
+2. Remove the existing Nebula theme layer when present, then install the bundled Nebula Blueprint extension cleanly.
 3. Install the Monte logo, samurai wallpaper, and custom 3D SVG icons.
-4. Apply the glass sidebar, labelled navigation, translucent dashboard, background, and Monte branding settings.
-5. Clear Laravel view/cache files and repair runtime ownership.
+4. Apply both authentication and dashboard backgrounds, glass transparency, the wide labelled sidebar, every Monte SVG icon URL, and Monte branding settings.
+5. Clear Laravel view/cache files, repair runtime ownership, and print a colored service/HTTP validation report ending in `DONE ✅`.
 
 ## Uninstall / rollback
 
