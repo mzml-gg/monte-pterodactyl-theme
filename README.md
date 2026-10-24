@@ -28,13 +28,16 @@ The installer updates the bundled Nebula extension when Blueprint is already ins
 
 ## Installation
 
-Clone the private repository on the panel server and run the installer as root:
+This repository is private. Authenticate the VPS with GitHub first using a deploy key, GitHub CLI, or another approved repository credential. A plain unauthenticated `git clone` will be rejected by GitHub. For GitHub CLI:
 
 ```bash
-git clone https://github.com/mzml-gg/monte-pterodactyl-theme.git
+gh auth login
+gh repo clone mzml-gg/monte-pterodactyl-theme
 cd monte-pterodactyl-theme
 sudo PANEL_DIR=/var/www/pterodactyl ./install.sh
 ```
+
+If the repository is already available on the server, run the installer directly:
 
 The installer will:
 
